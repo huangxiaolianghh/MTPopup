@@ -19,9 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private String mMessage = "测试MessageDialogBuilder测试MessageDialogBuilder测试Message" +
-            "DialogBuilder测试MessageDialogBuilder测试MessageDialogBuilder测试MessageDialogBuilder测试MessageDialogBuilder";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

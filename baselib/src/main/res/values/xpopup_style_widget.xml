@@ -51,8 +51,8 @@
 
     <!-- 自定义弹框动画 -->
     <style name="BottomDialogAnimation">
-        <item name="android:windowEnterAnimation">@anim/popup_alpha_enter</item>
-        <item name="android:windowExitAnimation">@anim/popup_alpha_exit</item>
+        <item name="android:windowEnterAnimation">@anim/xpopup_alpha_enter</item>
+        <item name="android:windowExitAnimation">@anim/xpopup_alpha_exit</item>
     </style>
 
 

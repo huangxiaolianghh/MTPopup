@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="xpopup_title_text_color">#FA3A3A</color>
-    <color name="xpopup_title_action_color">#FFFFFF</color>
-
-    <color name="xpopup_color_red">#FA3A3A</color>
-    <color name="xpopup_color_black">#000000</color>
     <color name="xpopup_color_gray">#353C46</color>
-    <color name="xpopup_color_blue">#1B88EE</color>
-    <color name="xpopup_color_white">#FFFFFF</color>
     <color name="xpopup_color_transparent">#00000000</color>
     <color name="xpopup_color_translucent">#80000000</color>
 
