@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.littlejerk.xpopup">
+    package="com.huangxiaoliang.demo">
 
     <application
         android:allowBackup="true"
@@ -10,26 +10,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:exported="true"
-            android:name=".demo.BottomSheetDialogFragmentDemoActivity" />
+            android:name="com.huangxiaoliang.demo.BottomSheetDialogFragmentDemoActivity"
+            android:exported="true" />
         <activity
-            android:exported="true"
-            android:name=".demo.BottomSheetDialogDemoActivity" />
+            android:name="com.huangxiaoliang.demo.BottomSheetDialogDemoActivity"
+            android:exported="true" />
         <activity
-            android:exported="true"
-            android:name=".demo.DialogActivityDemoActivity" />
+            android:name="com.huangxiaoliang.demo.DialogActivityDemoActivity"
+            android:exported="true" />
         <activity
-            android:exported="true"
-            android:name=".demo.DialogFragmentDemoActivity" />
+            android:name="com.huangxiaoliang.demo.DialogFragmentDemoActivity"
+            android:exported="true" />
         <activity
-            android:exported="true"
-            android:name=".demo.PopupWindowDemoActivity" />
+            android:name="com.huangxiaoliang.demo.PopupWindowDemoActivity"
+            android:exported="true" />
         <activity
-            android:exported="true"
-            android:name=".demo.DialogDemoActivity" />
+            android:name="com.huangxiaoliang.demo.DialogDemoActivity"
+            android:exported="true" />
         <activity
-            android:exported="true"
-            android:name=".MainActivity">
+            android:name="com.huangxiaoliang.demo.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
