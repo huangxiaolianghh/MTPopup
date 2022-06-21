@@ -205,13 +205,13 @@ public final class XPopupViewHolder {
     /**
      * 设置View的是否可见（true可见、false真正的不可见）
      *
-     * @param viewId  View的id
-     * @param visible 是否可见
+     * @param viewId View的id
+     * @param gone   是否隐藏
      * @return XPopupView实例链
      */
-    public XPopupViewHolder setGone(@IdRes int viewId, boolean visible) {
+    public XPopupViewHolder setGone(@IdRes int viewId, boolean gone) {
         View view = getView(viewId);
-        view.setVisibility(visible ? View.VISIBLE : View.GONE);
+        view.setVisibility(gone ? View.GONE : View.VISIBLE);
         return this;
     }
 
