@@ -17,12 +17,8 @@ public final class DialogConfig extends BaseConfig<DialogConfig> {
         super(context);
     }
 
-    @SuppressWarnings("rawtypes")
     @Override
     public XPopup<DialogConfig, DialogDelegate> create() {
-        return new XPopup<DialogConfig, DialogDelegate>(
-                this,
-                DialogDelegate.class,
-                XPopupCompat.Dialog);
+        return new XPopup<>(this, DialogDelegate.class, XPopupCompat.Dialog);
     }
 }

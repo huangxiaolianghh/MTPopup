@@ -13,13 +13,12 @@ import androidx.annotation.NonNull;
  * @date 2022/4/6 14:12
  * @desc 代理公共类
  */
-@SuppressWarnings("rawtypes")
-public abstract class BaseDelegate<T extends BaseConfig, Popup> implements XPopupInterface {
+public abstract class BaseDelegate<Config extends BaseConfig<Config>, Popup> implements XPopupInterface {
 
     /**
      * 配置参数管理类
      */
-    private T mConfig;
+    private final Config mConfig;
 
     /**
      * Popup view的Holder
@@ -31,7 +30,7 @@ public abstract class BaseDelegate<T extends BaseConfig, Popup> implements XPopu
      *
      * @param config 配置项
      */
-    protected BaseDelegate(@NonNull T config) {
+    protected BaseDelegate(@NonNull Config config) {
         Preconditions.checkNotNull(config.getContext(), "please init XPopup context");
         mConfig = config;
         buildPopupBeforeDecorateView();
@@ -55,6 +54,15 @@ public abstract class BaseDelegate<T extends BaseConfig, Popup> implements XPopu
 
     @Override
     public void dismiss() {
+        //如果添加了生命周期的监听，采用try catch方式关闭XPopup
+        if (config().isDismissObserverOnDestroy() || config().getXPopupLifecycleObserver() != null) {
+            try {
+                Utils.runOnUiThread(this::dismissPopup);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return;
+        }
         if (!Utils.checkXPopupRunEnv(config().getContext())) {
             return;
         }
@@ -80,7 +88,7 @@ public abstract class BaseDelegate<T extends BaseConfig, Popup> implements XPopu
      *
      * @return Config
      */
-    public T config() {
+    public Config config() {
         return mConfig;
     }
 

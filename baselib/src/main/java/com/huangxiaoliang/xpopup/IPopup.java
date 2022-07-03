@@ -49,4 +49,5 @@ public interface IPopup {
      */
     @XPopupCompat.PopupType
     int getPopupType();
+
 }
