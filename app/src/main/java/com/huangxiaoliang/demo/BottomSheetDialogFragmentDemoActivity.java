@@ -36,6 +36,7 @@ public class BottomSheetDialogFragmentDemoActivity extends AppCompatActivity {
                     .draggable(true)
                     .gravity(Gravity.CENTER)
                     .widthInPercent(0.8f)
+                    .cancelable(false)
 //                    .peekHeight(2000)
                     .bottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
                         @Override

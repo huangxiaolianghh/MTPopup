@@ -56,10 +56,7 @@ public final class DialogFragmentConfig extends BaseConfig<DialogFragmentConfig>
 
     @Override
     public XPopup<DialogFragmentConfig, DialogFragmentDelegate> create() {
-        return new XPopup<DialogFragmentConfig, DialogFragmentDelegate>(
-                this,
-                DialogFragmentDelegate.class,
-                XPopupCompat.DialogFragment);
+        return new XPopup<>(this, DialogFragmentDelegate.class, XPopupCompat.DialogFragment);
     }
 
     protected DialogFragmentConfig(Parcel in) {

@@ -19,10 +19,6 @@ public final class DialogActivityConfig extends BaseConfig<DialogActivityConfig>
 
     @Override
     public XPopup<DialogActivityConfig, DialogActivityDelegate> create() {
-        return new XPopup<DialogActivityConfig, DialogActivityDelegate>(
-                this,
-                DialogActivityDelegate.class,
-                XPopupCompat.DialogActivity);
-
+        return new XPopup<>(this, DialogActivityDelegate.class, XPopupCompat.DialogActivity);
     }
 }

@@ -21,8 +21,8 @@ import static com.huangxiaoliang.xpopup.util.Utils.NO_RES_ID;
  * @date 2022/4/6 17:16
  * @desc BottomSheetDialog代理类
  */
-@SuppressWarnings("rawtypes")
-public final class BottomSheetDialogDelegate extends BaseDelegate<BottomSheetDialogConfig, BottomSheetDialogDelegate.InnerBottomSheetDialog> {
+public final class BottomSheetDialogDelegate
+        extends BaseDelegate<BottomSheetDialogConfig, BottomSheetDialogDelegate.InnerBottomSheetDialog> {
 
     /**
      * BottomSheetDialog实例
@@ -32,7 +32,7 @@ public final class BottomSheetDialogDelegate extends BaseDelegate<BottomSheetDia
     /**
      * Dialog的Behavior对象
      */
-    private BottomSheetBehavior mBottomSheetBehavior;
+    private BottomSheetBehavior<FrameLayout> mBottomSheetBehavior;
 
     /**
      * 构造方法
@@ -106,7 +106,7 @@ public final class BottomSheetDialogDelegate extends BaseDelegate<BottomSheetDia
      *
      * @return Behavior对象
      */
-    public BottomSheetBehavior getBottomSheetBehavior() {
+    public BottomSheetBehavior<FrameLayout> getBottomSheetBehavior() {
         return mBottomSheetBehavior;
     }
 
@@ -115,7 +115,7 @@ public final class BottomSheetDialogDelegate extends BaseDelegate<BottomSheetDia
      *
      * @param bottomSheetBehavior Behavior对象
      */
-    public void setBottomSheetBehavior(BottomSheetBehavior bottomSheetBehavior) {
+    public void setBottomSheetBehavior(BottomSheetBehavior<FrameLayout> bottomSheetBehavior) {
         mBottomSheetBehavior = bottomSheetBehavior;
     }
 
@@ -151,9 +151,10 @@ public final class BottomSheetDialogDelegate extends BaseDelegate<BottomSheetDia
                 return;
             }
             ApplyParamsManager.updateBottomSheetDialogLayout(bottomSheetView, config());
-            BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheetView);
+            BottomSheetBehavior<FrameLayout> behavior = BottomSheetBehavior.from(bottomSheetView);
+            //避免点击外部空白区域崩溃问题：java.lang.IllegalArgumentException: Illegal state argument: 5
+            behavior.setHideable(true);
             mDelegate.setBottomSheetBehavior(behavior);
-
         }
 
         @Override

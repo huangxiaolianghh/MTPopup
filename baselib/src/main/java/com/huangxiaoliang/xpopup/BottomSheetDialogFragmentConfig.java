@@ -14,7 +14,8 @@ import androidx.fragment.app.FragmentManager;
  * @date 2022/5/4 22:39
  * @desc 底部可拖拽BottomSheetDialogFragment
  */
-public final class BottomSheetDialogFragmentConfig extends BottomSheetBehaviorConfig<BottomSheetDialogFragmentConfig> implements Parcelable {
+public final class BottomSheetDialogFragmentConfig
+        extends BottomSheetBehaviorConfig<BottomSheetDialogFragmentConfig> implements Parcelable {
 
     private FragmentManager mManager;
     private String mTag;
@@ -47,15 +48,9 @@ public final class BottomSheetDialogFragmentConfig extends BottomSheetBehaviorCo
         return mTag;
     }
 
-
-    @SuppressWarnings("rawtypes")
     @Override
     public XPopup<BottomSheetDialogFragmentConfig, BottomSheetDialogFragmentDelegate> create() {
-        return new XPopup<BottomSheetDialogFragmentConfig, BottomSheetDialogFragmentDelegate>(
-                this,
-                BottomSheetDialogFragmentDelegate.class,
-                XPopupCompat.BottomSheetDialogFragment);
-
+        return new XPopup<>(this, BottomSheetDialogFragmentDelegate.class, XPopupCompat.BottomSheetDialogFragment);
     }
 
     protected BottomSheetDialogFragmentConfig(Parcel in) {

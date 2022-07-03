@@ -12,6 +12,7 @@ import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.StyleRes;
+import androidx.lifecycle.Lifecycle;
 
 import static com.huangxiaoliang.xpopup.util.Utils.NO_RES_ID;
 
@@ -27,6 +28,21 @@ public abstract class BaseConfig<T> {
      * Context上下文
      */
     private Context mContext;
+
+    /**
+     * 被观察者，用于XPopup生命周期的监听
+     */
+    private Lifecycle mLifecycle;
+
+    /**
+     * XPopup生命周期观察者
+     */
+    private XPopupLifecycleObserver mXPopupLifecycleObserver;
+
+    /**
+     * 被观察者生命周期onDestroy()时关闭XPopup，如果实现了XPopupLifecycleObserver会被覆盖
+     */
+    private boolean mDismissObserverOnDestroy;
 
     /**
      * XPopup的Style样式
@@ -163,6 +179,59 @@ public abstract class BaseConfig<T> {
      */
     public Context getContext() {
         return mContext;
+    }
+
+    /**
+     * 添加被观察者
+     *
+     * @param lifecycle              被观察者
+     * @param popupLifecycleObserver 生命周期回调监听
+     * @return 实例链
+     */
+    public T addObserver(Lifecycle lifecycle, XPopupLifecycleObserver popupLifecycleObserver) {
+        mLifecycle = lifecycle;
+        mXPopupLifecycleObserver = popupLifecycleObserver;
+        return (T) this;
+    }
+
+    /**
+     * 添加被观察者，onDestroy()方法执行关闭XPopup开关
+     *
+     * @param lifecycle                被观察者
+     * @param dismissObserverOnDestroy onDestroy()方法执行关闭XPopup开关
+     * @return 实例链
+     */
+    public T addObserver(Lifecycle lifecycle, boolean dismissObserverOnDestroy) {
+        mLifecycle = lifecycle;
+        mDismissObserverOnDestroy = dismissObserverOnDestroy;
+        return (T) this;
+    }
+
+    /**
+     * 获取被观察者
+     *
+     * @return Lifecycle
+     */
+    public Lifecycle getLifecycle() {
+        return mLifecycle;
+    }
+
+    /**
+     * 获取被观察者生命周期回调监听
+     *
+     * @return 被观察者生命周期回调监听
+     */
+    public XPopupLifecycleObserver getXPopupLifecycleObserver() {
+        return mXPopupLifecycleObserver;
+    }
+
+    /**
+     * 是否开启OnDestroy()时关闭XPopup
+     *
+     * @return boolean
+     */
+    public boolean isDismissObserverOnDestroy() {
+        return mDismissObserverOnDestroy;
     }
 
     /**

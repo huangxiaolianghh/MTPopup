@@ -28,6 +28,7 @@ public class BottomSheetDialogDemoActivity extends AppCompatActivity {
                         .radiusSideTop(50)
 //                        .heightInPercent(0.8f)
 //                        .cornerRadiusTR(50)
+                        .cancelable(false)
                         .themeStyle(R.style.XPopup_BottomSheetDialog)
 //                        .animStyle(R.style.EnterRightExitLeftAnimation)
 //                        .matchWidth()

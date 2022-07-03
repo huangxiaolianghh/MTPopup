@@ -24,12 +24,8 @@ public final class BottomSheetDialogConfig extends BottomSheetBehaviorConfig<Bot
         return super.gravity(Gravity.BOTTOM);
     }
 
-    @SuppressWarnings("rawtypes")
     @Override
     public XPopup<BottomSheetDialogConfig, BottomSheetDialogDelegate> create() {
-        return new XPopup<BottomSheetDialogConfig, BottomSheetDialogDelegate>(
-                this,
-                BottomSheetDialogDelegate.class,
-                XPopupCompat.BottomSheetDialog);
+        return new XPopup<>(this, BottomSheetDialogDelegate.class, XPopupCompat.BottomSheetDialog);
     }
 }

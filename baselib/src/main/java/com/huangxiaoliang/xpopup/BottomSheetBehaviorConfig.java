@@ -9,8 +9,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
  * @date 2022/5/6 21:05
  * @desc BehaviorConfig配置
  */
-@SuppressWarnings({"unchecked", "rawtypes"})
-public abstract class BottomSheetBehaviorConfig<Config extends BottomSheetBehaviorConfig> extends BaseConfig<Config> {
+public abstract class BottomSheetBehaviorConfig<Config extends BottomSheetBehaviorConfig<Config>>
+        extends BaseConfig<Config> {
 
     private int mPeekHeight = -1;
     private boolean mDraggable = true;
