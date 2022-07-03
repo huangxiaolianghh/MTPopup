@@ -11,6 +11,7 @@
  - 支持设置弹窗关闭的逻辑，如返回键、点击外部空白区域
  - 支持设置弹窗的显示及关闭事件监听
  - 支持设置弹窗自动消失
+ - 支持Liffecycle设置，生命周期监听
  - ...
 
 # 项目引入该库
@@ -28,7 +29,7 @@ allprojects {
 
 ```java
 dependencies {
-	        implementation 'com.github.HHotHeart:XPopUp:1.0.0'
+	        implementation 'com.github.HHotHeart:XPopUp:1.0.1-beta.4'
 	}
 ```
 
@@ -129,14 +130,53 @@ dependencies {
                     xPopup.getPopupViewHolder().setText(R.id.tv_popup_title, "获取xPopup对象，更新标题"), 5000);
 ```
 
+XPopup实现了lifecycle，添加被观察者和实现XPopupLifecycleObserver接口即可，如：
+
+```java
+		   XPopupCompat.get().asDialog(DialogDemoActivity.this)
+                    .view(R.layout.popup_test)
+                    .gravity(Gravity.BOTTOM)
+                    .cancelable(false)
+                    .cancelableOutside(false)
+                    .addObserver(getLifecycle(), new XPopupLifecycleObserver() {
+                        @Override
+                        public void onPause(IPopup popup) {
+                            popup.dismiss();
+                            Toast.makeText(
+                                    DialogDemoActivity.this,
+                                    "onPause()--->消失",
+                                    Toast.LENGTH_SHORT)
+                                    .show();
+                        }
+                    })
+                    .create()
+                    .show();
+```
+
+这里只重写了onPause()，其它生命周期的回调直接重写即可。对于Dialog，如果Activity关闭前并没有关闭dialog，则会造成内存泄漏，这里我们简单实现了onDestroy()f关闭dialog的开关方法：addObserver(Lifecycle lifecycle, boolean dismissObserverOnDestroy)，如：
+
+```java
+		   XPopupCompat.get().asDialog(DialogDemoActivity.this)
+                    .view(R.layout.popup_test)
+                    .gravity(Gravity.BOTTOM)
+                    .cancelable(false)
+                    .cancelableOutside(false)
+                    .clickListener(R.id.btn_right, (popupInterface, view, holder) -> finish())
+                    .bindViewListener(holder -> holder.setText(R.id.btn_right, "关闭页面"))
+                    .addObserver(getLifecycle(), true)
+                    .create()
+                    .show();
+```
+
 至于其它类型弹框的使用和动画的设置可以通过demo去了解，这里就不细说了。
 
 # XPopup属性配置说明
 
 基本公共属性
 | 属性 | 设置方法 | 说明|
-|--|--|--|
+|---|--|--|
 | mContext | 构造函数BaseConfig(Context context) | 上下文 |
+| mLifecycle<br>mXPopupLifecycleObserver<br>mDismissObserverOnDestroy | addObserver(Lifecycle lifecycle, XPopupLifecycleObserver popupLifecycleObserver)<br>addObserver(Lifecycle lifecycle, boolean dismissObserverOnDestroy) | 被观察者生命周期的回调<br>设置onDestroy()回调关闭XPopup的开关 |
 |mThemeStyle|themeStyle(@StyleRes int themeStyle)| 主题样式，PopupWindow不支持此属性 |
 | mAnimStyle | animStyle(@StyleRes int animStyle) | 动画 |
 | mContentView| view(View contentView)<br>view(@LayoutRes int contentViewResId) | 内容View|
