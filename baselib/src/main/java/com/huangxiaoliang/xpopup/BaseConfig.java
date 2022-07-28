@@ -134,7 +134,7 @@ public abstract class BaseConfig<T> {
     /**
      * Window dimAmount
      */
-    private float mDimAmount;
+    private float mDimAmount = 0.5f;
 
     /**
      * XPopup自动消失的时间，单位：毫秒

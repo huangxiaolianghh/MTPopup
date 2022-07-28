@@ -154,7 +154,7 @@ class ApplyParamsManager {
         window.setBackgroundDrawable(config.getBackgroundDrawable() == null
                 ? new ColorDrawable(Color.TRANSPARENT) : config.getBackgroundDrawable());
         //设置Popup背景透明度
-        if (config.getDimAmount() > ALPHA_0) {
+        if (config.getDimAmount() >= ALPHA_0) {
             window.setDimAmount(config.getDimAmount());
         }
         if (popup instanceof BottomSheetDialog) {

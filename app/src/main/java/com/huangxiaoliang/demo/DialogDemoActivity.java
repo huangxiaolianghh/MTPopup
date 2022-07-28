@@ -53,6 +53,7 @@ public class DialogDemoActivity extends AppCompatActivity {
 //                    .matchWidth()
 //                    .wrapHeight()
 //                    .wrapWidth()
+                    .dimAmount(0f)                       //不设置背景透明度，默认0.5f
                     .cancelable(false)                   //返回键dismiss
                     .cancelableOutside(false)            //点击外部区域dismiss
                     .autoDismissTime(5000)               //5秒后自动dismiss
