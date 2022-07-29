@@ -7,7 +7,7 @@
  - 采用链式调用一点到底
  - 支持Android多种弹框：**Dialog**、**BottomSheetDialog**、**DialogFragment**、**BottomSheetDialogFragment**、**PopupWindow**、**DialogActivity**
  - 支持设置弹窗的主题样式、宽高（最大宽高及屏幕宽高比等）、背景透明度、圆角、显示位置、显示消失动画
- - 支持设置弹窗ContentView相关控件View的属性，如
+ - 支持设置弹窗ContentView相关控件View的属性，如点击、长按事件等
  - 支持设置弹窗关闭的逻辑，如返回键、点击外部空白区域
  - 支持设置弹窗的显示及关闭事件监听
  - 支持设置弹窗自动消失
@@ -64,6 +64,7 @@ dependencies {
 //                    .matchWidth()
 //                    .wrapHeight()
 //                    .wrapWidth()
+//                    .dimAmount(0f)                     //不设置背景透明度，默认0.5f
                     .cancelable(false)                   //返回键dismiss
                     .cancelableOutside(false)            //点击外部区域dismiss
                     .autoDismissTime(5000)               //5秒后自动dismiss
@@ -138,7 +139,7 @@ XPopup实现了lifecycle，添加被观察者和实现XPopupLifecycleObserver接
                     .gravity(Gravity.BOTTOM)
                     .cancelable(false)
                     .cancelableOutside(false)
-                    .addObserver(getLifecycle(), new XPopupLifecycleObserver() {
+                    .observeOn(getLifecycle(), new XPopupLifecycleObserver() {
                         @Override
                         public void onPause(IPopup popup) {
                             popup.dismiss();
@@ -153,7 +154,9 @@ XPopup实现了lifecycle，添加被观察者和实现XPopupLifecycleObserver接
                     .show();
 ```
 
-这里只重写了onPause()，其它生命周期的回调直接重写即可。对于Dialog，如果Activity关闭前并没有关闭dialog，则会造成内存泄漏，这里我们简单实现了onDestroy()f关闭dialog的开关方法：addObserver(Lifecycle lifecycle, boolean dismissObserverOnDestroy)，如：
+这里只重写了onPause()，其它生命周期的回调直接重写即可。
+
+对于Dialog，如果Activity关闭前并没有关闭dialog，则会造成内存泄漏，这里我们简单实现了onDestroy()关闭dialog的开关方法：observeOn(Lifecycle lifecycle, boolean dismissObserverOnDestroy)，如：
 
 ```java
 		   XPopupCompat.get().asDialog(DialogDemoActivity.this)
@@ -163,10 +166,14 @@ XPopup实现了lifecycle，添加被观察者和实现XPopupLifecycleObserver接
                     .cancelableOutside(false)
                     .clickListener(R.id.btn_right, (popupInterface, view, holder) -> finish())
                     .bindViewListener(holder -> holder.setText(R.id.btn_right, "关闭页面"))
-                    .addObserver(getLifecycle(), true)
+                    .observeOn(getLifecycle(), true)
                     .create()
                     .show();
 ```
+
+这里特别说明下XPopup dismiss掉，会把代理delegate释放，也会将观察者的关系解除，此时的XPopup对象就没有作用，调用里面的方法会抛异常！若想再次使用，直接调用Config的create()方法重新初始化XPopup对象。
+
+因为XPopup实现了LifecycleObserver观察者，这意味着这几种弹窗类型都可以感知被观察者的生命周期，Dialog感知宿主的生命周期对我们来说是非常有意义的事情，而其它弹窗类型我们可以酌情使用LifecycleObserver，归根结底，我们要懂得LifecycleObserver的原理才不会出错。
 
 至于其它类型弹框的使用和动画的设置可以通过demo去了解，这里就不细说了。
 
@@ -176,7 +183,7 @@ XPopup实现了lifecycle，添加被观察者和实现XPopupLifecycleObserver接
 | 属性 | 设置方法 | 说明|
 |---|--|--|
 | mContext | 构造函数BaseConfig(Context context) | 上下文 |
-| mLifecycle<br>mXPopupLifecycleObserver<br>mDismissObserverOnDestroy | addObserver(Lifecycle lifecycle, XPopupLifecycleObserver popupLifecycleObserver)<br>addObserver(Lifecycle lifecycle, boolean dismissObserverOnDestroy) | 被观察者生命周期的回调<br>设置onDestroy()回调关闭XPopup的开关 |
+| mLifecycle<br>mXPopupLifecycleObserver<br>mDismissObserverOnDestroy | observeOn(Lifecycle lifecycle, XPopupLifecycleObserver popupLifecycleObserver)<br>observeOn(Lifecycle lifecycle, boolean dismissObserverOnDestroy) | 被观察者生命周期的回调<br>设置onDestroy()回调关闭XPopup的开关 |
 |mThemeStyle|themeStyle(@StyleRes int themeStyle)| 主题样式，PopupWindow不支持此属性 |
 | mAnimStyle | animStyle(@StyleRes int animStyle) | 动画 |
 | mContentView| view(View contentView)<br>view(@LayoutRes int contentViewResId) | 内容View|
@@ -195,7 +202,7 @@ XPopup实现了lifecycle，添加被观察者和实现XPopupLifecycleObserver接
 | mHeightInPercent| heightInPercent(float heightInPercent) | 屏幕高度比|
 | mGravity| gravity(int gravity)| 弹窗位置，BottomSheet系列弹窗的位置恒为Gravity.BOTTOM|
 | mBackgroundDrawable| backgroundDrawable(Drawable backgroundDrawable) | 弹窗window的背景|
-| mDimAmount| dimAmount(float dimAmount) | 弹窗周围的亮度|
+| mDimAmount| dimAmount(float dimAmount) | 弹窗周围的亮度，默认0.5f |
 | mAutoDismissTime| autoDismissTime(long autoDismissTime) | x秒后自动消失|
 | mCancelable| cancelable(boolean cancelable) | 返回键事件关闭弹窗，默认true，对于PopupWindow无效，调用者自行处理其此事件|
 | mCancelableOutside| cancelableOutside(boolean cancelableOutside) | 点击外部区域关闭弹窗，默认true|

@@ -170,4 +170,9 @@ public final class DialogActivityDelegate extends BaseDelegate<DialogActivityCon
             DelegateManager.getInstance().remove(this.hashCode());
         }
     }
+
+    @Override
+    public void release() {
+        mActivity = null;
+    }
 }

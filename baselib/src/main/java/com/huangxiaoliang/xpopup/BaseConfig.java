@@ -188,7 +188,7 @@ public abstract class BaseConfig<T> {
      * @param popupLifecycleObserver 生命周期回调监听
      * @return 实例链
      */
-    public T addObserver(Lifecycle lifecycle, XPopupLifecycleObserver popupLifecycleObserver) {
+    public T observeOn(Lifecycle lifecycle, XPopupLifecycleObserver popupLifecycleObserver) {
         mLifecycle = lifecycle;
         mXPopupLifecycleObserver = popupLifecycleObserver;
         return (T) this;
@@ -201,7 +201,7 @@ public abstract class BaseConfig<T> {
      * @param dismissObserverOnDestroy onDestroy()方法执行关闭XPopup开关
      * @return 实例链
      */
-    public T addObserver(Lifecycle lifecycle, boolean dismissObserverOnDestroy) {
+    public T observeOn(Lifecycle lifecycle, boolean dismissObserverOnDestroy) {
         mLifecycle = lifecycle;
         mDismissObserverOnDestroy = dismissObserverOnDestroy;
         return (T) this;

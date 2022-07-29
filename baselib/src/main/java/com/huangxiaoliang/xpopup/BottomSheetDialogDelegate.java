@@ -163,4 +163,10 @@ public final class BottomSheetDialogDelegate
             DelegateManager.getInstance().remove(this.hashCode());
         }
     }
+
+    @Override
+    public void release() {
+        mBottomSheetDialog = null;
+        mBottomSheetBehavior = null;
+    }
 }

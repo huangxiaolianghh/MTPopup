@@ -4,17 +4,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.huangxiaoliang.xpopup.DialogConfig;
 import com.huangxiaoliang.xpopup.DialogDelegate;
 import com.huangxiaoliang.xpopup.IPopup;
 import com.huangxiaoliang.xpopup.XPopup;
 import com.huangxiaoliang.xpopup.XPopupCompat;
-import com.huangxiaoliang.xpopup.XPopupInterface;
 import com.huangxiaoliang.xpopup.XPopupLifecycleObserver;
 import com.huangxiaoliang.xpopup.view.XPopupViewHolder;
 
@@ -127,7 +124,7 @@ public class DialogDemoActivity extends AppCompatActivity {
                     .cancelableOutside(false)
                     .clickListener(R.id.btn_right, (popupInterface, view, holder) -> finish())
                     .bindViewListener(holder -> holder.setText(R.id.btn_right, "关闭页面"))
-                    .addObserver(getLifecycle(), true)
+                    .observeOn(getLifecycle(), true)
                     .create()
                     .show();
         });
@@ -138,7 +135,7 @@ public class DialogDemoActivity extends AppCompatActivity {
                     .gravity(Gravity.BOTTOM)
                     .cancelable(false)
                     .cancelableOutside(false)
-                    .addObserver(getLifecycle(), new XPopupLifecycleObserver() {
+                    .observeOn(getLifecycle(), new XPopupLifecycleObserver() {
                         @Override
                         public void onPause(IPopup popup) {
                             popup.dismiss();

@@ -1,5 +1,10 @@
 package com.huangxiaoliang.xpopup;
 
+import static com.huangxiaoliang.xpopup.util.Utils.ALPHA_0;
+import static com.huangxiaoliang.xpopup.util.Utils.ALPHA_1;
+import static com.huangxiaoliang.xpopup.util.Utils.NO_RES_ID;
+import static com.huangxiaoliang.xpopup.util.Utils.isOutOfBounds;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -12,16 +17,11 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.PopupWindow;
 
-import com.huangxiaoliang.xpopup.util.Preconditions;
-import com.huangxiaoliang.xpopup.util.Utils;
-
 import androidx.annotation.FloatRange;
 import androidx.annotation.NonNull;
 
-import static com.huangxiaoliang.xpopup.util.Utils.ALPHA_0;
-import static com.huangxiaoliang.xpopup.util.Utils.ALPHA_1;
-import static com.huangxiaoliang.xpopup.util.Utils.NO_RES_ID;
-import static com.huangxiaoliang.xpopup.util.Utils.isOutOfBounds;
+import com.huangxiaoliang.xpopup.util.Preconditions;
+import com.huangxiaoliang.xpopup.util.Utils;
 
 /**
  * @author HHotHeart
@@ -243,4 +243,9 @@ public final class PopupWindowDelegate extends BaseDelegate<PopupWindowConfig, P
 
     }
 
+    @Override
+    public void release() {
+        mPopupWindow = null;
+        mWindowManager = null;
+    }
 }

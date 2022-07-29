@@ -143,4 +143,9 @@ public abstract class BaseDelegate<Config extends BaseConfig<Config>, Popup> imp
      */
     public abstract View getDecorView();
 
+    /**
+     * 释放资源
+     */
+    public abstract void release();
+
 }
