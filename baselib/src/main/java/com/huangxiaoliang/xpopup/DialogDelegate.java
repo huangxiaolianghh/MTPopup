@@ -1,15 +1,15 @@
 package com.huangxiaoliang.xpopup;
 
+import static com.huangxiaoliang.xpopup.util.Utils.NO_RES_ID;
+
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.view.View;
 
-import com.huangxiaoliang.xpopup.util.Preconditions;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialog;
 
-import static com.huangxiaoliang.xpopup.util.Utils.NO_RES_ID;
+import com.huangxiaoliang.xpopup.util.Preconditions;
 
 /**
  * @author HHotHeart
@@ -88,4 +88,8 @@ public final class DialogDelegate extends BaseDelegate<DialogConfig, AppCompatDi
         return getPopup().getWindow().getDecorView();
     }
 
+    @Override
+    public void release() {
+        mDialog = null;
+    }
 }

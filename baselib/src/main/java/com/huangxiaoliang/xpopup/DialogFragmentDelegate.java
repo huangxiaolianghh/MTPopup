@@ -197,4 +197,9 @@ public final class DialogFragmentDelegate extends BaseDelegate<DialogFragmentCon
             return getDialog().getWindow().getDecorView();
         }
     }
+
+    @Override
+    public void release() {
+        mDialogFragment = null;
+    }
 }

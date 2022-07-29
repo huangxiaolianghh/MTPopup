@@ -236,4 +236,10 @@ public final class BottomSheetDialogFragmentDelegate extends BaseDelegate<Bottom
         }
 
     }
+
+    @Override
+    public void release() {
+        mBottomSheetDialogFragment = null;
+        mBottomSheetBehavior = null;
+    }
 }

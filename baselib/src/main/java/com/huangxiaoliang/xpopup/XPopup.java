@@ -3,13 +3,13 @@ package com.huangxiaoliang.xpopup;
 import android.content.Context;
 import android.util.Log;
 
-import com.huangxiaoliang.xpopup.util.Preconditions;
-import com.huangxiaoliang.xpopup.view.XPopupViewHolder;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
+
+import com.huangxiaoliang.xpopup.util.Preconditions;
+import com.huangxiaoliang.xpopup.view.XPopupViewHolder;
 
 /**
  * @author HHotHeart
@@ -33,7 +33,7 @@ public class XPopup<Config extends BaseConfig<Config>, Delegate extends BaseDele
     /**
      * XPopup 代理实例
      */
-    private final Delegate mDelegate;
+    private Delegate mDelegate;
 
     protected XPopup(@NonNull Config config, Class<Delegate> delegateClass, @XPopupCompat.PopupType int popupType) {
         mPopupType = popupType;
@@ -48,6 +48,8 @@ public class XPopup<Config extends BaseConfig<Config>, Delegate extends BaseDele
     @Override
     public void dismiss() {
         getDelegate().dismiss();
+        getDelegate().release();
+        mDelegate = null;
     }
 
     @Override
@@ -57,22 +59,25 @@ public class XPopup<Config extends BaseConfig<Config>, Delegate extends BaseDele
 
     @Override
     public Delegate getDelegate() {
+        Preconditions.checkNotNull(mDelegate, "Delegate is null,please call Config create() method again");
         return mDelegate;
     }
 
     @Override
     public XPopupViewHolder getPopupViewHolder() {
-        Preconditions.checkNotNull(getDelegate(), "Delegate is null,please check the Popup create() method");
+        Preconditions.checkNotNull(mDelegate, "Delegate is null,please call Config create() method again");
         return getDelegate().getPopupViewHolder();
     }
 
     @Override
     public int getPopupType() {
+        Preconditions.checkNotNull(mDelegate, "Delegate is null,please call Config create() method again");
         return mPopupType;
     }
 
     @Override
     public Context getContext() {
+        Preconditions.checkNotNull(mDelegate, "Delegate is null,please call Config create() method again");
         return mContext;
     }
 
@@ -99,6 +104,9 @@ public class XPopup<Config extends BaseConfig<Config>, Delegate extends BaseDele
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     protected void onStart() {
+        if (mDelegate == null) {
+            return;
+        }
         if (mDelegate.config().getXPopupLifecycleObserver() != null) {
             mDelegate.config().getXPopupLifecycleObserver().onStart(this);
         }
@@ -109,6 +117,9 @@ public class XPopup<Config extends BaseConfig<Config>, Delegate extends BaseDele
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     protected void onResume() {
+        if (mDelegate == null) {
+            return;
+        }
         if (mDelegate.config().getXPopupLifecycleObserver() != null) {
             mDelegate.config().getXPopupLifecycleObserver().onResume(this);
         }
@@ -119,6 +130,9 @@ public class XPopup<Config extends BaseConfig<Config>, Delegate extends BaseDele
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     protected void onPause() {
+        if (mDelegate == null) {
+            return;
+        }
         if (mDelegate.config().getXPopupLifecycleObserver() != null) {
             mDelegate.config().getXPopupLifecycleObserver().onPause(this);
         }
@@ -129,6 +143,9 @@ public class XPopup<Config extends BaseConfig<Config>, Delegate extends BaseDele
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     protected void onStop() {
+        if (mDelegate == null) {
+            return;
+        }
         if (mDelegate.config().getXPopupLifecycleObserver() != null) {
             mDelegate.config().getXPopupLifecycleObserver().onStop(this);
         }
@@ -139,13 +156,16 @@ public class XPopup<Config extends BaseConfig<Config>, Delegate extends BaseDele
      */
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     protected void onDestroy() {
+        if (mDelegate == null) {
+            return;
+        }
+        if (mDelegate.config().getLifecycle() != null) {
+            mDelegate.config().getLifecycle().removeObserver(this);
+        }
         if (mDelegate.config().getXPopupLifecycleObserver() != null) {
             mDelegate.config().getXPopupLifecycleObserver().onDestroy(this);
         } else if (mDelegate.config().isDismissObserverOnDestroy()) {
             dismiss();
-        }
-        if (mDelegate.config().getLifecycle() != null) {
-            mDelegate.config().getLifecycle().removeObserver(this);
         }
     }
 }
