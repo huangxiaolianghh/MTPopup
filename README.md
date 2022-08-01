@@ -1,4 +1,4 @@
-# XPopUp
+# XPopUp（popup-ktx版本更新中）
 [![](https://jitpack.io/v/HHotHeart/XPopUp.svg)](https://jitpack.io/#HHotHeart/XPopUp)<br>Android一个简单强大的弹框处理框架，支持链式调用，提供了比较全面的api，并且覆盖Android几乎所有的弹框类型，如Dialog、BottomSheetDialog、DialogFragment、BottomSheetDialogFragment、PopupWindow、DialogActivity，总结起来就是调用简单、功能强大。
 
 # 功能特点
@@ -12,6 +12,7 @@
  - 支持设置弹窗的显示及关闭事件监听
  - 支持设置弹窗自动消失
  - 支持Liffecycle设置，生命周期监听
+ - ktx版本更新中...
  - ...
 
 # 项目引入该库
