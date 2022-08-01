@@ -29,7 +29,7 @@ allprojects {
 
 ```java
 dependencies {
-	        implementation 'com.github.HHotHeart:XPopUp:1.0.1-beta.4'
+	        implementation 'com.github.huangxiaolianghh.XPopUp:popup:1.0.1'
 	}
 ```
 
