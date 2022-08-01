@@ -8,4 +8,5 @@
 //}
 rootProject.name = "XPopUp"
 include ':app'
-include ':baselib'
+include ':popup'
+include ':popup-ktx'
