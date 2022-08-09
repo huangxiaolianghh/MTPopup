@@ -64,10 +64,20 @@ public final class DialogDelegate extends BaseDelegate<DialogConfig, AppCompatDi
         if (config().getOnShowListener() != null) {
             getPopup().setOnShowListener((DialogInterface dialog) -> config().getOnShowListener().onShow(this));
         }
-        //设置Popup消失时监听
-        if (config().getOnDismissListener() != null) {
-            getPopup().setOnDismissListener(dialog -> config().getOnDismissListener().onDismiss(this));
-        }
+        getPopup().setOnDismissListener(dialog -> {
+            //设置Popup消失时监听
+            if (config().getOnDismissListener() != null) {
+                config().getOnDismissListener().onDismiss(this);
+            }
+            //dismiss()时已调用release方法，兼顾其它关闭情况
+            releasePopup();
+        });
+
+    }
+
+    @Override
+    public boolean isShowing() {
+        return getPopup() != null && getPopup().isShowing();
     }
 
     @Override
@@ -89,7 +99,7 @@ public final class DialogDelegate extends BaseDelegate<DialogConfig, AppCompatDi
     }
 
     @Override
-    public void release() {
+    protected void releaseDelegate() {
         mDialog = null;
     }
 }

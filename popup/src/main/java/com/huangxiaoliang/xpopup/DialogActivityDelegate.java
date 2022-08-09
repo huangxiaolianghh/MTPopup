@@ -1,5 +1,9 @@
 package com.huangxiaoliang.xpopup;
 
+import static com.huangxiaoliang.xpopup.util.Utils.ALPHA_0;
+import static com.huangxiaoliang.xpopup.util.Utils.NO_RES_ID;
+import static com.huangxiaoliang.xpopup.util.Utils.isOutOfBounds;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
@@ -8,17 +12,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 
-import com.huangxiaoliang.xpopup.manager.DelegateManager;
-import com.huangxiaoliang.xpopup.util.Preconditions;
-import com.huangxiaoliang.xpopup.util.Utils;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import static com.huangxiaoliang.xpopup.util.Utils.ALPHA_0;
-import static com.huangxiaoliang.xpopup.util.Utils.NO_RES_ID;
-import static com.huangxiaoliang.xpopup.util.Utils.isOutOfBounds;
+import com.huangxiaoliang.xpopup.manager.DelegateManager;
+import com.huangxiaoliang.xpopup.util.Preconditions;
+import com.huangxiaoliang.xpopup.util.Utils;
 
 /**
  * @author HHotHeart
@@ -50,13 +50,18 @@ public final class DialogActivityDelegate extends BaseDelegate<DialogActivityCon
     }
 
     @Override
-    public Activity getPopup() {
+    public InnerDialogActivity getPopup() {
         return mActivity;
     }
 
     @Override
     protected void applyParamsToPopup() {
 
+    }
+
+    @Override
+    public boolean isShowing() {
+        return getPopup() != null && getPopup().isShowing();
     }
 
     @Override
@@ -142,6 +147,16 @@ public final class DialogActivityDelegate extends BaseDelegate<DialogActivityCon
 
         }
 
+        /**
+         * 当前Popup是否在显示
+         *
+         * @return Popup是否在显示
+         */
+        protected boolean isShowing() {
+            return isShowing;
+        }
+
+
         @Override
         protected void onResume() {
             super.onResume();
@@ -172,7 +187,7 @@ public final class DialogActivityDelegate extends BaseDelegate<DialogActivityCon
     }
 
     @Override
-    public void release() {
+    protected void releaseDelegate() {
         mActivity = null;
     }
 }

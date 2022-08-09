@@ -9,17 +9,17 @@ import com.huangxiaoliang.xpopup.view.XPopupViewHolder;
 /**
  * @author HHotHeart
  * @date 2021/12/30 11:41
- * @desc XPopup事件监听
+ * @desc Popup事件监听
  */
 public interface XPopupInterface {
 
     /**
-     * XPopup显示
+     * Popup显示
      */
     void show();
 
     /**
-     * XPopup消失
+     * Popup消失
      */
     void dismiss();
 
@@ -28,42 +28,49 @@ public interface XPopupInterface {
      *
      * @param viewHolder ViewHolder
      */
-    void initViewHolder(XPopupViewHolder viewHolder);
+    void bindToViewHolder(XPopupViewHolder viewHolder);
+
+    /**
+     * 绑定Popup实例
+     *
+     * @param popup Popup实例
+     */
+    void bindToPopup(XPopup<?, ?> popup);
 
     interface OnCancelListener {
         /**
-         * XPopup取消监听
+         * Popup取消监听
          *
-         * @param popupInterface XPopup实例
+         * @param popupInterface Popup实例
          */
         void onCancel(XPopupInterface popupInterface);
     }
 
     interface OnDismissListener {
         /**
-         * XPopup消失监听
+         * Popup消失监听
          *
-         * @param popupInterface XPopup实例
+         * @param popupInterface Popup实例
          */
         void onDismiss(XPopupInterface popupInterface);
     }
 
     interface OnShowListener {
         /**
-         * XPopup显示监听
+         * Popup显示监听
          *
-         * @param popupInterface XPopup实例
+         * @param popupInterface Popup实例
          */
         void onShow(XPopupInterface popupInterface);
     }
 
     interface OnClickListener {
         /**
-         * XPopup点击事件监听
+         * Popup点击事件监听
          *
-         * @param popupInterface XPopup实例
+         * @param popupInterface Popup实例
          * @param view           View
-         * @param holder         操作XPopup View的类
+         * @param holder         操作Popup View的类
          */
         void onClick(XPopupInterface popupInterface, View view, XPopupViewHolder holder);
     }
@@ -75,6 +82,7 @@ public interface XPopupInterface {
          * @param popupInterface XPopup实例
          * @param view           View
          * @param holder         操作XPopup View的类
+         * @return 是否拦截事件
          */
         boolean onLongClick(XPopupInterface popupInterface, View view, XPopupViewHolder holder);
     }
@@ -83,7 +91,7 @@ public interface XPopupInterface {
         /**
          * 拦截物理按键监听
          *
-         * @param popupInterface XPopup实例
+         * @param popupInterface Popup实例
          * @param keyCode        物理按键
          * @param event          事件
          * @return 是否拦截处理
@@ -93,9 +101,9 @@ public interface XPopupInterface {
 
     interface OnBindViewListener {
         /**
-         * RootView绑定XPopup之前
+         * RootView绑定Popup之前
          *
-         * @param holder XPopupView
+         * @param holder PopupView
          */
         void bindView(XPopupViewHolder holder);
     }

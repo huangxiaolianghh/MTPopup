@@ -10,7 +10,7 @@ import androidx.annotation.ColorInt;
 /**
  * @author HHotHeart
  * @date 2022/4/3 16:43
- * @desc XPopup根布局
+ * @desc Popup根布局
  */
 public final class XPopupRootView extends FrameLayout implements IDecorLayout {
     private DecorLayoutHelper mLayoutHelper;

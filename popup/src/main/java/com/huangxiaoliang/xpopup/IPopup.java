@@ -43,11 +43,10 @@ public interface IPopup {
     XPopupViewHolder getPopupViewHolder();
 
     /**
-     * XPopup类型
+     * Popup类型
      *
      * @return {@link XPopupCompat#Dialog}、{@link XPopupCompat#DialogFragment}、{@link XPopupCompat#DialogActivity}、{@link XPopupCompat#PopupWindow}
      */
     @XPopupCompat.PopupType
     int getPopupType();
-
 }

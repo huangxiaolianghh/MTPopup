@@ -1,5 +1,7 @@
 package com.huangxiaoliang.xpopup;
 
+import static com.huangxiaoliang.xpopup.util.Utils.NO_RES_ID;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -7,14 +9,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.huangxiaoliang.xpopup.manager.DelegateManager;
 import com.huangxiaoliang.xpopup.util.Preconditions;
-
-import androidx.annotation.NonNull;
-
-import static com.huangxiaoliang.xpopup.util.Utils.NO_RES_ID;
 
 /**
  * @author HHotHeart
@@ -77,10 +77,21 @@ public final class BottomSheetDialogDelegate
         if (config().getOnShowListener() != null) {
             getPopup().setOnShowListener((DialogInterface dialog) -> config().getOnShowListener().onShow(this));
         }
-        //设置Popup消失时监听
-        if (config().getOnDismissListener() != null) {
-            getPopup().setOnDismissListener(dialog -> config().getOnDismissListener().onDismiss(this));
-        }
+
+        getPopup().setOnDismissListener(dialog -> {
+            //设置Popup消失时监听
+            if (config().getOnDismissListener() != null) {
+                config().getOnDismissListener().onDismiss(this);
+            }
+            //dismiss()时已调用release方法，兼顾拖拽关闭情况
+            releasePopup();
+        });
+
+    }
+
+    @Override
+    public boolean isShowing() {
+        return getPopup() != null && getPopup().isShowing();
     }
 
     @Override
@@ -165,7 +176,7 @@ public final class BottomSheetDialogDelegate
     }
 
     @Override
-    public void release() {
+    protected void releaseDelegate() {
         mBottomSheetDialog = null;
         mBottomSheetBehavior = null;
     }

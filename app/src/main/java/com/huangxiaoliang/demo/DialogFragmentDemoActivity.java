@@ -27,7 +27,7 @@ public class DialogFragmentDemoActivity extends AppCompatActivity {
                         .managerTag(getSupportFragmentManager(), "HHH")
                         .animStyle(R.style.PopupEnterRightExitLeftAnimation)
                         .dimAmount(1f)
-                        .cancelable(false)
+                        .cancelable(true)
                         .widthInPercent(0.8f)
                         .clickListener(R.id.btn_left, (popupInterface, view, holder) -> {
                             popupInterface.dismiss();
