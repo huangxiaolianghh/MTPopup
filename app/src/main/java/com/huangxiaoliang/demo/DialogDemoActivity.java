@@ -7,6 +7,8 @@ import android.view.Gravity;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.huangxiaoliang.xpopup.DialogConfig;
 import com.huangxiaoliang.xpopup.DialogDelegate;
 import com.huangxiaoliang.xpopup.IPopup;
@@ -14,8 +16,6 @@ import com.huangxiaoliang.xpopup.XPopup;
 import com.huangxiaoliang.xpopup.XPopupCompat;
 import com.huangxiaoliang.xpopup.XPopupLifecycleObserver;
 import com.huangxiaoliang.xpopup.view.XPopupViewHolder;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * @author HHotHeart
@@ -109,6 +109,8 @@ public class DialogDemoActivity extends AppCompatActivity {
             XPopup<DialogConfig, DialogDelegate> xPopup = XPopupCompat.get().asDialog(DialogDemoActivity.this)
                     .view(R.layout.popup_test)
                     .gravity(Gravity.CENTER)
+                    .clickListener(R.id.btn_right, (popupInterface, view, holder) -> popupInterface.dismiss())
+                    .cancelableOutside(true)
                     .create();
             xPopup.show();
             new Handler(Looper.getMainLooper()).postDelayed(() ->
@@ -141,7 +143,7 @@ public class DialogDemoActivity extends AppCompatActivity {
                             popup.dismiss();
                             Toast.makeText(
                                     DialogDemoActivity.this,
-                                    "onPause()--->消失",
+                                    "onPause-->消失监听",
                                     Toast.LENGTH_SHORT)
                                     .show();
                         }

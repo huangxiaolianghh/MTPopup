@@ -1,16 +1,16 @@
 package com.huangxiaoliang.xpopup;
 
-import android.content.Context;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
-import androidx.annotation.IntDef;
-
 import static androidx.fragment.app.DialogFragment.STYLE_NORMAL;
 import static androidx.fragment.app.DialogFragment.STYLE_NO_FRAME;
 import static androidx.fragment.app.DialogFragment.STYLE_NO_INPUT;
 import static androidx.fragment.app.DialogFragment.STYLE_NO_TITLE;
+
+import android.content.Context;
+
+import androidx.annotation.IntDef;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  * @author HHotHeart
@@ -24,11 +24,12 @@ public class XPopupCompat {
     public @interface DialogFragmentStyle {
     }
 
-    @IntDef({Dialog, BottomSheetDialog, DialogFragment, BottomSheetDialogFragment, DialogActivity, PopupWindow})
+    @IntDef({No_Popup, Dialog, BottomSheetDialog, DialogFragment, BottomSheetDialogFragment, DialogActivity, PopupWindow})
     @Retention(RetentionPolicy.SOURCE)
     public @interface PopupType {
     }
 
+    public static final int No_Popup = -1;
     public static final int Dialog = 0;
     public static final int BottomSheetDialog = 1;
     public static final int DialogFragment = 2;

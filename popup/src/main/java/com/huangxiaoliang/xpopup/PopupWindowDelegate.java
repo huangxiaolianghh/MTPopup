@@ -109,15 +109,19 @@ public final class PopupWindowDelegate extends BaseDelegate<PopupWindowConfig, P
         }
         getPopup().setWidth(width);
         getPopup().setHeight(height);
-        //设置Popup消失事件监听
-        if (config().getOnDismissListener() != null) {
-            getPopup().setOnDismissListener(() -> {
-                if (!config().isDecorateStatusBar()) {
-                    updateContentViewDimAmount(ALPHA_0);
-                }
+
+        getPopup().setOnDismissListener(() -> {
+            if (!config().isDecorateStatusBar()) {
+                updateContentViewDimAmount(ALPHA_0);
+            }
+            if (config().getOnDismissListener() != null) {
+                //设置Popup消失事件监听
                 config().getOnDismissListener().onDismiss(PopupWindowDelegate.this);
-            });
-        }
+            }
+            //dismiss()时已调用release方法，兼顾其它关闭情况
+            releasePopup();
+        });
+
         // 拦截处理外部点击事件，如果自己实现拦截监听，则cancelableOutside = false会不生效
         if (config().getTouchInterceptor() != null) {
             getPopup().setTouchInterceptor(config().getTouchInterceptor());
@@ -133,6 +137,11 @@ public final class PopupWindowDelegate extends BaseDelegate<PopupWindowConfig, P
             }
             return false;
         });
+    }
+
+    @Override
+    public boolean isShowing() {
+        return getPopup() != null && getPopup().isShowing();
     }
 
     @Override
@@ -186,7 +195,7 @@ public final class PopupWindowDelegate extends BaseDelegate<PopupWindowConfig, P
                     decorView = (View) getPopup().getContentView().getParent();
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         return decorView;
     }
@@ -244,8 +253,9 @@ public final class PopupWindowDelegate extends BaseDelegate<PopupWindowConfig, P
     }
 
     @Override
-    public void release() {
+    protected void releaseDelegate() {
         mPopupWindow = null;
         mWindowManager = null;
+        mBackgroundView = null;
     }
 }

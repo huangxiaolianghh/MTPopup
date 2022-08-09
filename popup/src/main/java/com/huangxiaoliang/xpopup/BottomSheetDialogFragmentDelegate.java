@@ -1,24 +1,25 @@
 package com.huangxiaoliang.xpopup;
 
+import static com.huangxiaoliang.xpopup.util.Utils.NO_RES_ID;
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
+
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.huangxiaoliang.xpopup.manager.DelegateManager;
 import com.huangxiaoliang.xpopup.util.Preconditions;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentManager;
-
-import static com.huangxiaoliang.xpopup.util.Utils.NO_RES_ID;
 
 /**
  * @author HHotHeart
@@ -75,6 +76,11 @@ public final class BottomSheetDialogFragmentDelegate extends BaseDelegate<Bottom
     }
 
     @Override
+    public boolean isShowing() {
+        return getPopup() != null && getPopup().isShowing();
+    }
+
+    @Override
     void showPopup() {
         Preconditions.checkNotNull(config().getManager(), "please call config managerTag(manager, tag)");
         mBottomSheetDialogFragment.showNow(config().getManager(), config().getTag());
@@ -87,8 +93,9 @@ public final class BottomSheetDialogFragmentDelegate extends BaseDelegate<Bottom
 
     @Override
     public View getDecorView() {
-        if (getPopup() == null || getPopup().getDialog() == null
-                || getPopup().getDialog().getWindow() == null) {
+        if (getPopup() == null ||
+                getPopup().getDialog() == null ||
+                getPopup().getDialog().getWindow() == null) {
             return null;
         }
         return getPopup().getDialog().getWindow().getDecorView();
@@ -207,6 +214,10 @@ public final class BottomSheetDialogFragmentDelegate extends BaseDelegate<Bottom
                 config().getOnDismissListener().onDismiss(mDelegate);
             }
             super.dismiss();
+            //兼顾其它dismiss关闭情况
+            if (mDelegate != null) {
+                mDelegate.releasePopup();
+            }
         }
 
         @Override
@@ -224,6 +235,18 @@ public final class BottomSheetDialogFragmentDelegate extends BaseDelegate<Bottom
         }
 
         /**
+         * 当前Popup是否在显示
+         *
+         * @return Popup是否在显示
+         */
+        public boolean isShowing() {
+            if (getDialog() == null) {
+                return false;
+            }
+            return getDialog().isShowing();
+        }
+
+        /**
          * 获取DecorView，onStart()之后才会有值
          *
          * @return DecorView
@@ -235,10 +258,15 @@ public final class BottomSheetDialogFragmentDelegate extends BaseDelegate<Bottom
             return getDialog().getWindow().getDecorView();
         }
 
+        @Override
+        public void onDestroyView() {
+            super.onDestroyView();
+            DelegateManager.getInstance().remove(this.hashCode());
+        }
     }
 
     @Override
-    public void release() {
+    protected void releaseDelegate() {
         mBottomSheetDialogFragment = null;
         mBottomSheetBehavior = null;
     }

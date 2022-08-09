@@ -1,7 +1,6 @@
 package com.huangxiaoliang.xpopup;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
@@ -20,65 +19,70 @@ public class XPopup<Config extends BaseConfig<Config>, Delegate extends BaseDele
         implements IPopup, LifecycleObserver {
 
     /**
-     * 上下文
-     */
-    private final Context mContext;
-
-    /**
-     * XPopup类型
-     */
-    @XPopupCompat.PopupType
-    private final int mPopupType;
-
-    /**
-     * XPopup 代理实例
+     * Popup 代理实例
      */
     private Delegate mDelegate;
+
+    /**
+     * Popup类型
+     */
+    @XPopupCompat.PopupType
+    private int mPopupType;
 
     protected XPopup(@NonNull Config config, Class<Delegate> delegateClass, @XPopupCompat.PopupType int popupType) {
         mPopupType = popupType;
         mDelegate = getT(delegateClass, config);
         Preconditions.checkNotNull(mDelegate, "delegate is null,please check popup class type");
-        mContext = mDelegate.config().getContext();
         if (mDelegate.config().getLifecycle() != null) {
             mDelegate.config().getLifecycle().addObserver(this);
         }
+        mDelegate.bindToPopup(this);
     }
 
+    /**
+     * Popup关闭时将所有资源释放，只保留Config的配置<br>
+     * 下次需要显示时调用{@link BaseConfig#create()}重新初始化Popup
+     */
     @Override
     public void dismiss() {
+        if (mDelegate == null){
+            return;
+        }
         getDelegate().dismiss();
-        getDelegate().release();
-        mDelegate = null;
     }
 
     @Override
     public void show() {
+        if (mDelegate == null){
+            return;
+        }
         getDelegate().show();
     }
 
     @Override
     public Delegate getDelegate() {
-        Preconditions.checkNotNull(mDelegate, "Delegate is null,please call Config create() method again");
         return mDelegate;
     }
 
     @Override
     public XPopupViewHolder getPopupViewHolder() {
-        Preconditions.checkNotNull(mDelegate, "Delegate is null,please call Config create() method again");
+        Preconditions.checkNotNull(mDelegate,
+                "Delegate is null,please call Config create() method again");
         return getDelegate().getPopupViewHolder();
     }
 
     @Override
     public int getPopupType() {
-        Preconditions.checkNotNull(mDelegate, "Delegate is null,please call Config create() method again");
+        Preconditions.checkNotNull(mDelegate,
+                "Delegate is null,please call Config create() method again");
         return mPopupType;
     }
 
     @Override
     public Context getContext() {
-        Preconditions.checkNotNull(mDelegate, "Delegate is null,please call Config create() method again");
-        return mContext;
+        Preconditions.checkNotNull(mDelegate,
+                "Delegate is null,please call Config create() method again");
+        return mDelegate.config().getContext();
     }
 
     /**
@@ -94,9 +98,16 @@ public class XPopup<Config extends BaseConfig<Config>, Delegate extends BaseDele
             delegate = cls.getConstructor(config.getClass()).newInstance(config);
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e("XPopup", e.getMessage());
         }
         return delegate;
+    }
+
+    /**
+     * 释放当前资源
+     */
+    protected void release() {
+        mDelegate = null;
+        mPopupType = XPopupCompat.No_Popup;
     }
 
     /**

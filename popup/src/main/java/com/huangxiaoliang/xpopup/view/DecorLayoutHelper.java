@@ -25,7 +25,7 @@ import androidx.core.content.ContextCompat;
 /**
  * @author HHotHeart
  * @date 2022/4/3 16:58
- * @desc XPopup根布局装饰帮助类，摘自QMUI：https://github.com/Tencent/QMUI_Android
+ * @desc Popup根布局装饰帮助类，摘自QMUI：https://github.com/Tencent/QMUI_Android
  */
 public final class DecorLayoutHelper implements IDecorLayout {
 

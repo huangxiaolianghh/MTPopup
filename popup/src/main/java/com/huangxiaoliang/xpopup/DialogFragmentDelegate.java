@@ -1,5 +1,7 @@
 package com.huangxiaoliang.xpopup;
 
+import static com.huangxiaoliang.xpopup.util.Utils.NO_RES_ID;
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
@@ -8,15 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.huangxiaoliang.xpopup.manager.DelegateManager;
-import com.huangxiaoliang.xpopup.util.Preconditions;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
-import static com.huangxiaoliang.xpopup.util.Utils.NO_RES_ID;
+import com.huangxiaoliang.xpopup.manager.DelegateManager;
+import com.huangxiaoliang.xpopup.util.Preconditions;
 
 /**
  * @author HHotHeart
@@ -55,12 +55,17 @@ public final class DialogFragmentDelegate extends BaseDelegate<DialogFragmentCon
     }
 
     @Override
-    public DialogFragment getPopup() {
+    public InnerDialogFragment getPopup() {
         return mDialogFragment;
     }
 
     @Override
     protected void applyParamsToPopup() {
+    }
+
+    @Override
+    public boolean isShowing() {
+        return getPopup() != null && getPopup().isShowing();
     }
 
     @Override
@@ -171,9 +176,13 @@ public final class DialogFragmentDelegate extends BaseDelegate<DialogFragmentCon
 
         @Override
         public void dismiss() {
-            super.dismiss();
             if (config().getOnDismissListener() != null) {
                 config().getOnDismissListener().onDismiss(mDelegate);
+            }
+            super.dismiss();
+            //兼顾其它dismiss关闭情况
+            if (mDelegate != null) {
+                mDelegate.releasePopup();
             }
         }
 
@@ -183,6 +192,18 @@ public final class DialogFragmentDelegate extends BaseDelegate<DialogFragmentCon
             if (config().getOnShowListener() != null) {
                 config().getOnShowListener().onShow(mDelegate);
             }
+        }
+
+        /**
+         * 当前Popup是否在显示
+         *
+         * @return Popup是否在显示
+         */
+        public boolean isShowing() {
+            if (getDialog() == null) {
+                return false;
+            }
+            return getDialog().isShowing();
         }
 
         /**
@@ -196,10 +217,16 @@ public final class DialogFragmentDelegate extends BaseDelegate<DialogFragmentCon
             }
             return getDialog().getWindow().getDecorView();
         }
+
+        @Override
+        public void onDestroyView() {
+            super.onDestroyView();
+            DelegateManager.getInstance().remove(this.hashCode());
+        }
     }
 
     @Override
-    public void release() {
+    protected void releaseDelegate() {
         mDialogFragment = null;
     }
 }

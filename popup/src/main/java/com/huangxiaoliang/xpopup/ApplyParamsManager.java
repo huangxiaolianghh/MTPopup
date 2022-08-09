@@ -2,11 +2,9 @@ package com.huangxiaoliang.xpopup;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.util.SparseArray;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -84,7 +82,7 @@ class ApplyParamsManager {
     protected static <T extends BaseConfig<T>> T bindListener(XPopupInterface popupInterface, T config) {
         //View绑定Dialog之前回调
         XPopupViewHolder holder = new XPopupViewHolder(config.getContext(), config.getXPopupRootView());
-        popupInterface.initViewHolder(holder);
+        popupInterface.bindToViewHolder(holder);
         if (config.getBindViewListener() != null) {
             config.getBindViewListener().bindView(holder);
         }
@@ -158,17 +156,23 @@ class ApplyParamsManager {
             window.setDimAmount(config.getDimAmount());
         }
         if (popup instanceof BottomSheetDialog) {
-            //如果是BottomSheetDialog实例，则设置消失时动画开关（BottomSheetFragmentDialog）
+            //BottomSheetDialog实例，设置消失时动画开关（BottomSheetFragmentDialog）
             ((BottomSheetDialog) popup).setDismissWithAnimation(true);
             ((BottomSheetDialog) popup).setCancelable(config.isCancelable());
             ((BottomSheetDialog) popup).setCanceledOnTouchOutside(config.isCancelableOutside());
         } else {
-            //非BottomSheetDialog可更新Window的宽高，如果是BottomSheetDialog执行此操作，对于有导航栏的手机会抖动
+            //非BottomSheetDialog可更新Window的宽高
+            //如果是BottomSheetDialog执行此操作，对于有导航栏的手机会抖动
             ApplyParamsManager.updateWindowLayout(window, config);
             popup.setCancelable(config.isCancelable());
             popup.setCanceledOnTouchOutside(config.isCancelableOutside());
         }
-        popup.setOnKeyListener((dialog, keyCode, event) -> !config.isCancelable());
+        popup.setOnKeyListener((dialog, keyCode, event) -> {
+            if (config.isCancelable()) {
+                popupInterface.dismiss();
+            }
+            return true;
+        });
         //点击Popup空白区域的监听
         if (config.isCancelableOutside()) {
             if (decorView == null) {
