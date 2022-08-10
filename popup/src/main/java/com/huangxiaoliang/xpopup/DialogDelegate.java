@@ -64,12 +64,12 @@ public final class DialogDelegate extends BaseDelegate<DialogConfig, AppCompatDi
         if (config().getOnShowListener() != null) {
             getPopup().setOnShowListener((DialogInterface dialog) -> config().getOnShowListener().onShow(this));
         }
+        //设置Popup消失时监听
         getPopup().setOnDismissListener(dialog -> {
-            //设置Popup消失时监听
             if (config().getOnDismissListener() != null) {
                 config().getOnDismissListener().onDismiss(this);
             }
-            //dismiss()时已调用release方法，兼顾其它关闭情况
+            //关闭弹窗同时释放相关资源
             releasePopup();
         });
 

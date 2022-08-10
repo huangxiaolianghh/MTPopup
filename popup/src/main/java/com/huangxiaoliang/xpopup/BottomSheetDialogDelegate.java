@@ -77,16 +77,10 @@ public final class BottomSheetDialogDelegate
         if (config().getOnShowListener() != null) {
             getPopup().setOnShowListener((DialogInterface dialog) -> config().getOnShowListener().onShow(this));
         }
-
-        getPopup().setOnDismissListener(dialog -> {
-            //设置Popup消失时监听
-            if (config().getOnDismissListener() != null) {
-                config().getOnDismissListener().onDismiss(this);
-            }
-            //dismiss()时已调用release方法，兼顾拖拽关闭情况
-            releasePopup();
-        });
-
+        //设置Popup消失时监听
+        if (config().getOnDismissListener() != null) {
+            getPopup().setOnDismissListener(dialog -> config().getOnDismissListener().onDismiss(this));
+        }
     }
 
     @Override
@@ -166,6 +160,15 @@ public final class BottomSheetDialogDelegate
             //避免点击外部空白区域崩溃问题：java.lang.IllegalArgumentException: Illegal state argument: 5
             behavior.setHideable(true);
             mDelegate.setBottomSheetBehavior(behavior);
+        }
+
+        @Override
+        public void dismiss() {
+            super.dismiss();
+            //关闭弹窗同时释放相关资源
+            if (mDelegate != null) {
+                mDelegate.releasePopup();
+            }
         }
 
         @Override

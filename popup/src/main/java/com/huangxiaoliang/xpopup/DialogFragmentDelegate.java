@@ -4,6 +4,7 @@ import static com.huangxiaoliang.xpopup.util.Utils.NO_RES_ID;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -155,7 +156,6 @@ public final class DialogFragmentDelegate extends BaseDelegate<DialogFragmentCon
         @Nullable
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            Log.e(TAG, "onCreateView");
             if (mContentView == null) {
                 mContentView = config().getXPopupRootView();
             }
@@ -175,12 +175,12 @@ public final class DialogFragmentDelegate extends BaseDelegate<DialogFragmentCon
         }
 
         @Override
-        public void dismiss() {
+        public void onDismiss(@NonNull DialogInterface dialog) {
+            super.onDismiss(dialog);
             if (config().getOnDismissListener() != null) {
                 config().getOnDismissListener().onDismiss(mDelegate);
             }
-            super.dismiss();
-            //兼顾其它dismiss关闭情况
+            //关闭弹窗同时释放相关资源
             if (mDelegate != null) {
                 mDelegate.releasePopup();
             }

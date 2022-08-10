@@ -88,7 +88,6 @@ public abstract class BaseDelegate<Config extends BaseConfig<Config>, Popup>
             return;
         }
         dismissPopup();
-        releasePopup();
     }
 
     /**

@@ -110,15 +110,15 @@ public final class PopupWindowDelegate extends BaseDelegate<PopupWindowConfig, P
         getPopup().setWidth(width);
         getPopup().setHeight(height);
 
+        //设置Popup消失事件监听
         getPopup().setOnDismissListener(() -> {
             if (!config().isDecorateStatusBar()) {
                 updateContentViewDimAmount(ALPHA_0);
             }
             if (config().getOnDismissListener() != null) {
-                //设置Popup消失事件监听
                 config().getOnDismissListener().onDismiss(PopupWindowDelegate.this);
             }
-            //dismiss()时已调用release方法，兼顾其它关闭情况
+            //关闭弹窗同时释放相关资源
             releasePopup();
         });
 

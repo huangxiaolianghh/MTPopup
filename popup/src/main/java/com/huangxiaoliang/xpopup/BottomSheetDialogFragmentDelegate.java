@@ -209,12 +209,12 @@ public final class BottomSheetDialogFragmentDelegate extends BaseDelegate<Bottom
         }
 
         @Override
-        public void dismiss() {
+        public void onDismiss(@NonNull DialogInterface dialog) {
+            super.onDismiss(dialog);
             if (config().getOnDismissListener() != null) {
                 config().getOnDismissListener().onDismiss(mDelegate);
             }
-            super.dismiss();
-            //兼顾其它dismiss关闭情况
+            //关闭弹窗同时释放相关资源
             if (mDelegate != null) {
                 mDelegate.releasePopup();
             }

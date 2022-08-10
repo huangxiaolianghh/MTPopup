@@ -85,6 +85,8 @@ public final class DialogActivityDelegate extends BaseDelegate<DialogActivityCon
                 config().getOnDismissListener().onDismiss(this);
             }
             Utils.overridePendingTransition(mActivity, config().getAnimStyle(), false);
+            //关闭弹窗同时释放相关资源
+            releasePopup();
         }
     }
 
