@@ -7,16 +7,15 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.huangxiaoliang.xpopup.BottomSheetDialogFragmentConfig;
-import com.huangxiaoliang.xpopup.BottomSheetDialogFragmentDelegate;
-import com.huangxiaoliang.xpopup.XPopup;
-import com.huangxiaoliang.xpopup.XPopupCompat;
+import com.huangxiaoliang.popup.BottomSheetDialogFragmentDelegate;
+import com.huangxiaoliang.popup.Popup;
+import com.huangxiaoliang.popup.PopupCompat;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 /**
- * @author HHotHeart
+ * @author huangxiaolianghh
  * @date 2022/5/10 21:20
  * @desc 描述
  */
@@ -28,10 +27,10 @@ public class BottomSheetDialogFragmentDemoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bottom_sheet_dialog_fragment_demo);
         setTitle("BottomSheetDialogFragmentDemo");
         findViewById(R.id.btn_bottomsheet_dialog_fragment1).setOnClickListener(v -> {
-            XPopup<BottomSheetDialogFragmentConfig, BottomSheetDialogFragmentDelegate> xPopup = XPopupCompat.get().asBottomSheetDialogFragment(BottomSheetDialogFragmentDemoActivity.this)
+            Popup<BottomSheetDialogFragmentDelegate> popup = PopupCompat.get().asBottomSheetDialogFragment(BottomSheetDialogFragmentDemoActivity.this)
                     .view(R.layout.popup_test)
                     .radius(50)
-                    .themeStyle(R.style.XPopup_BottomSheetDialog)
+                    .themeStyle(R.style.MTPopup_BottomSheetDialog)
                     .managerTag(getSupportFragmentManager(), "HHH")
                     .draggable(true)
                     .gravity(Gravity.CENTER)
@@ -63,8 +62,8 @@ public class BottomSheetDialogFragmentDemoActivity extends AppCompatActivity {
                                     "消失监听",
                                     Toast.LENGTH_SHORT).show())
                     .create();
-            xPopup.show();
-//            xPopup.getDelegate().getBottomSheetBehavior().setPeekHeight(2000);
+            popup.show();
+//            popup.getDelegate().getBottomSheetBehavior().setPeekHeight(2000);
         });
 
     }

@@ -3,12 +3,12 @@ package com.huangxiaoliang.demo;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.huangxiaoliang.xpopup.XPopupCompat;
+import com.huangxiaoliang.popup.PopupCompat;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 /**
- * @author HHotHeart
+ * @author huangxiaolianghh
  * @date 2022/5/10 21:25
  * @desc 描述
  */
@@ -20,10 +20,10 @@ public class DialogFragmentDemoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dialog_fragment_demo);
         setTitle("DialogFragmentDemo");
         findViewById(R.id.btn_dialog_fragment1).setOnClickListener(v ->
-                XPopupCompat.get().asDialogFragment(DialogFragmentDemoActivity.this)
+                PopupCompat.get().asDialogFragment(DialogFragmentDemoActivity.this)
                         .view(R.layout.popup_test)
                         .radius(50)
-                        .themeStyle(R.style.XPopup_Dialog)
+                        .themeStyle(R.style.MTPopup_Dialog)
                         .managerTag(getSupportFragmentManager(), "HHH")
                         .animStyle(R.style.PopupEnterRightExitLeftAnimation)
                         .dimAmount(1f)

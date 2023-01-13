@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.Toast;
 
-import com.huangxiaoliang.xpopup.XPopupCompat;
+import com.huangxiaoliang.popup.PopupCompat;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 /**
- * @author HHotHeart
+ * @author huangxiaolianghh
  * @date 2022/5/10 20:21
  * @desc 描述
  */
@@ -22,7 +22,7 @@ public class PopupWindowDemoActivity extends AppCompatActivity {
         setTitle("PopupWindowDemo");
         //没有themeStyle，返回键事件暂时没实现
         findViewById(R.id.btn_popupwinow).setOnClickListener(v ->
-                XPopupCompat.get().asPopupWindow(PopupWindowDemoActivity.this)
+                PopupCompat.get().asPopupWindow(PopupWindowDemoActivity.this)
                         .view(R.layout.popup_test)
                         .radius(50)
                         .dimAmount(0.7f)

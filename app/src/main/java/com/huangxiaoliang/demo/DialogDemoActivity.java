@@ -9,16 +9,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.huangxiaoliang.xpopup.DialogConfig;
-import com.huangxiaoliang.xpopup.DialogDelegate;
-import com.huangxiaoliang.xpopup.IPopup;
-import com.huangxiaoliang.xpopup.XPopup;
-import com.huangxiaoliang.xpopup.XPopupCompat;
-import com.huangxiaoliang.xpopup.XPopupLifecycleObserver;
-import com.huangxiaoliang.xpopup.view.XPopupViewHolder;
+import com.huangxiaoliang.popup.DialogDelegate;
+import com.huangxiaoliang.popup.IPopup;
+import com.huangxiaoliang.popup.Popup;
+import com.huangxiaoliang.popup.PopupCompat;
+import com.huangxiaoliang.popup.PopupLifecycleObserver;
+import com.huangxiaoliang.popup.view.PopupViewHolder;
 
 /**
- * @author HHotHeart
+ * @author huangxiaolianghh
  * @date 2022/5/10 21:25
  * @desc 描述
  */
@@ -30,15 +29,15 @@ public class DialogDemoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dialog_demo);
         setTitle("DialogDemo");
         findViewById(R.id.btn_dialog1).setOnClickListener(v -> {
-            XPopupCompat.get().asDialog(DialogDemoActivity.this)
-                    .themeStyle(R.style.XPopup_Dialog)    //主题样式
+            PopupCompat.get().asDialog(DialogDemoActivity.this)
+                    .themeStyle(R.style.MTPopup_Dialog)   //主题样式
                     .view(R.layout.popup_test)            //可传View
                     .radius(50)                           //设置四个圆角
 //                    //设置弹窗上（下、左、右）方圆角，
 //                    .radiusSideTop(50)
                     .animStyle(R.style.PopupEnterExpandExitShrinkAnimation)  //动画
                     //宽高比
-                    .widthInPercent(0.8f)
+//                    .widthInPercent(0.8f)
 //                    .heightInPercent(0.8f)
 //                    //最大宽高
 //                    .maxWidth(800)
@@ -49,7 +48,7 @@ public class DialogDemoActivity extends AppCompatActivity {
 //                    .matchHeight()
 //                    .matchWidth()
 //                    .wrapHeight()
-//                    .wrapWidth()
+                    .wrapWidth()
                     .dimAmount(0f)                       //不设置背景透明度，默认0.5f
                     .cancelable(false)                   //返回键dismiss
                     .cancelableOutside(false)            //点击外部区域dismiss
@@ -64,6 +63,7 @@ public class DialogDemoActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT)
                                 .show();
                     })
+                    .clickListener(R.id.btn_right, (popupInterface, view, holder) -> popupInterface.dismiss())
                     //添加多个View长按事件，也支持添加单个View的点击事件
                     .longClickIds(R.id.btn_left, R.id.btn_right)
                     .longClickIdsListener((popupInterface, view, holder) -> {
@@ -97,29 +97,28 @@ public class DialogDemoActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT)
                                     .show())
                     //View绑定事件监听
-                    .bindViewListener((XPopupViewHolder holder) -> {
+                    .bindViewListener((PopupViewHolder holder) -> {
                         //holder可以对象弹窗所有控件操作，在这里处理弹窗内部相关逻辑
-                        holder.setText(R.id.tv_popup_title, "XPopup");
+                        holder.setText(R.id.tv_popup_title, "MTPopup");
                     })
-                    .create()
-                    .show();
+                    .create().show();
         });
 
         findViewById(R.id.btn_dialog2).setOnClickListener(v -> {
-            XPopup<DialogConfig, DialogDelegate> xPopup = XPopupCompat.get().asDialog(DialogDemoActivity.this)
+            Popup<DialogDelegate> popup = PopupCompat.get().asDialog(DialogDemoActivity.this)
                     .view(R.layout.popup_test)
                     .gravity(Gravity.CENTER)
                     .clickListener(R.id.btn_right, (popupInterface, view, holder) -> popupInterface.dismiss())
                     .cancelableOutside(true)
                     .create();
-            xPopup.show();
+            popup.show();
             new Handler(Looper.getMainLooper()).postDelayed(() ->
-                    xPopup.getPopupViewHolder().setText(R.id.tv_popup_title, "获取xPopup对象，更新标题"), 5000);
+                    popup.getPopupViewHolder().setText(R.id.tv_popup_title, "获取Popup对象，更新标题"), 5000);
         });
 
 
         findViewById(R.id.btn_dialog3).setOnClickListener(v -> {
-            XPopupCompat.get().asDialog(DialogDemoActivity.this)
+            PopupCompat.get().asDialog(DialogDemoActivity.this)
                     .view(R.layout.popup_test)
                     .gravity(Gravity.BOTTOM)
                     .cancelable(false)
@@ -132,14 +131,14 @@ public class DialogDemoActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.btn_dialog4).setOnClickListener(v -> {
-            XPopupCompat.get().asDialog(DialogDemoActivity.this)
+            PopupCompat.get().asDialog(DialogDemoActivity.this)
                     .view(R.layout.popup_test)
                     .gravity(Gravity.BOTTOM)
                     .cancelable(false)
                     .cancelableOutside(false)
-                    .observeOn(getLifecycle(), new XPopupLifecycleObserver() {
+                    .observeOn(getLifecycle(), new PopupLifecycleObserver<DialogDelegate>() {
                         @Override
-                        public void onPause(IPopup popup) {
+                        public void onPause(IPopup<DialogDelegate> popup) {
                             popup.dismiss();
                             Toast.makeText(
                                     DialogDemoActivity.this,

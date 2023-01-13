@@ -6,7 +6,7 @@
 //        jcenter() // Warning: this repository is going to shut down soon
 //    }
 //}
-rootProject.name = "XPopUp"
+rootProject.name = "MTPopup"
 include ':app'
 include ':popup'
 include ':popup-ktx'

@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="XPopup.Compat.DarkActionBar">
+    <style name="AppTheme" parent="MTPopup.Compat.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -20,8 +20,8 @@
         <item name="android:windowExitAnimation">@anim/out_to_left</item>
     </style>
 
-    <!--  项目自定义DialogActivity主题，继承XPopupDialogActivityTheme，重写相关属性  -->
-    <style name="MyDialogActivityTheme" parent="XPopupDialogActivityTheme">
+    <!--  项目自定义DialogActivity主题，继承MTPopupDialogActivityTheme，重写相关属性  -->
+    <style name="MyDialogActivityTheme" parent="MTPopupDialogActivityTheme">
         <item name="android:backgroundDimAmount">0.6</item>
         <item name="android:windowAnimationStyle">@style/ActivityEnterRightExitLeftAnimation</item>
     </style>

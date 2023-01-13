@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 普通Dialog主题样式 -->
+    <style name="MTPopup.Dialog" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <!-- 是否不显示title 继承AppCompat样式-->
+        <item name="windowNoTitle">true</item>
+        <!-- 设置dialog显示区域外部的背景（透明），有圆角，圆角外部区域显示这个颜色 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 设置dialog的背景（透明），此颜色值会覆盖掉windowBackground的值 -->
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <!-- 设置灰度的值，为1时，除Dialog内容布局高亮其它全黑，系统的默认值是0.6 -->
+        <item name="android:backgroundDimAmount">0.5</item>
+        <!-- 是否允许背景灰暗，即是否让显示区域以外使用上面设置的黑色半透明背景，设为false时，等价于backgroundDimAmount=0 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 是否有遮盖 -->
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 设置Dialog的windowFrame框（无） -->
+        <item name="android:windowFrame">@null</item>
+        <!-- 是否浮现在activity之上，必须设为true，否则自己独立占一个界面，这根本就不像是一个对话框了 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否半透明，貌似没什么卵用 -->
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <!--  BottomSheetDialog样式  -->
+    <style name="MTPopup.BottomSheetDialog" parent="Theme.Design.BottomSheetDialog">
+        <item name="android:windowNoTitle">true</item>
+        <!-- 是否不显示title 继承AppCompat样式-->
+        <item name="windowNoTitle">true</item>
+        <!-- 设置dialog显示区域外部的背景（透明），有圆角，圆角外部区域显示这个颜色 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 设置dialog的背景（透明），此颜色值会覆盖掉windowBackground的值 -->
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <!-- 设置灰度的值，为1时，除Dialog内容布局高亮其它全黑，系统的默认值是0.6 -->
+        <item name="android:backgroundDimAmount">0.5</item>
+        <!-- 是否允许背景灰暗，即是否让显示区域以外使用上面设置的黑色半透明背景，设为false时，等价于backgroundDimAmount=0 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 是否有遮盖 -->
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 设置Dialog的windowFrame框（无） -->
+        <item name="android:windowFrame">@null</item>
+        <!-- 是否浮现在activity之上，必须设为true，否则自己独立占一个界面，这根本就不像是一个对话框了 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否半透明，貌似没什么卵用 -->
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <!-- 自定义弹框动画 -->
+    <style name="BottomDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/mt_popup_alpha_enter</item>
+        <item name="android:windowExitAnimation">@anim/mt_popup_alpha_exit</item>
+    </style>
+
+
+</resources>

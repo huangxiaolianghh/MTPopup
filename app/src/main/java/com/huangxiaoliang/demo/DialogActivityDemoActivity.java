@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.Toast;
 
-import com.huangxiaoliang.xpopup.XPopupCompat;
+import com.huangxiaoliang.popup.PopupCompat;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 /**
- * @author HHotHeart
+ * @author huangxiaolianghh
  * @date 2022/5/10 21:25
  * @desc 描述
  */
@@ -24,7 +24,7 @@ public class DialogActivityDemoActivity extends AppCompatActivity {
     }
 
     private void showDialog() {
-        XPopupCompat.get().asDialogActivity(DialogActivityDemoActivity.this)
+        PopupCompat.get().asDialogActivity(DialogActivityDemoActivity.this)
                 .view(R.layout.popup_test)
                 .radius(50)
                 .themeStyle(R.style.MyDialogActivityTheme)

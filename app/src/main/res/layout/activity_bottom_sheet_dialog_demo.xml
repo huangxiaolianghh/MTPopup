@@ -28,7 +28,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
-        android:text="弹窗dismiss后，检测XPopup对象实例是否为null"
+        android:text="弹窗dismiss后，检测MTPopup对象实例是否为null"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

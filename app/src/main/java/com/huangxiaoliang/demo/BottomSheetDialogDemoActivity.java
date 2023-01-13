@@ -5,18 +5,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.huangxiaoliang.xpopup.BottomSheetDialogConfig;
-import com.huangxiaoliang.xpopup.BottomSheetDialogDelegate;
-import com.huangxiaoliang.xpopup.XPopup;
-import com.huangxiaoliang.xpopup.XPopupCompat;
+import com.huangxiaoliang.popup.BottomSheetDialogDelegate;
+import com.huangxiaoliang.popup.Popup;
+import com.huangxiaoliang.popup.PopupCompat;
 
 /**
- * @author HHotHeart
+ * @author huangxiaolianghh
  * @date 2022/5/10 20:20
  * @desc 描述
  */
 public class BottomSheetDialogDemoActivity extends AppCompatActivity {
-    XPopup<BottomSheetDialogConfig, BottomSheetDialogDelegate> xPopup;
+    Popup<BottomSheetDialogDelegate> popup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +23,7 @@ public class BottomSheetDialogDemoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bottom_sheet_dialog_demo);
         setTitle("BottomSheetDialogDemo");
 
-        xPopup = XPopupCompat.get().asBottomSheetDialog(BottomSheetDialogDemoActivity.this)
+        popup = PopupCompat.get().asBottomSheetDialog(BottomSheetDialogDemoActivity.this)
                 .view(R.layout.popup_test)
 //                        .widthInPercent(0.8f)
 //                        .gravity(Gravity.BOTTOM)
@@ -32,7 +31,7 @@ public class BottomSheetDialogDemoActivity extends AppCompatActivity {
 //                        .heightInPercent(0.8f)
 //                        .cornerRadiusTR(50)
                 .cancelable(true)
-                .themeStyle(R.style.XPopup_BottomSheetDialog)
+                .themeStyle(R.style.MTPopup_BottomSheetDialog)
 //                        .animStyle(R.style.EnterRightExitLeftAnimation)
 //                        .matchWidth()
 //                        .maxHeight(300)
@@ -49,13 +48,13 @@ public class BottomSheetDialogDemoActivity extends AppCompatActivity {
                 .create();
 
         findViewById(R.id.btn_bottomsheet_dialog).setOnClickListener(v -> {
-            xPopup.show();
+            popup.show();
         });
-        //dismiss后释放资源，但xPopup实例是值传递，所以xPopup!=null
+        //dismiss后释放资源，但Popup实例是值传递，所以popup!=null
         findViewById(R.id.btn_test_popup).setOnClickListener(v -> {
             Toast.makeText(
                     BottomSheetDialogDemoActivity.this,
-                    "当前实例 Popup == null：" + (xPopup == null),
+                    "当前实例 Popup == null：" + (popup == null),
                     Toast.LENGTH_SHORT)
                     .show();
         });

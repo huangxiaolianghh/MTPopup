@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">XPopup</string>
-    <string name="popup_des">XPopup，Android一个简单强大的弹框处理框架，支持链式调用，提供了比较全面的api，并且覆盖Android几乎所有的弹框类型，如Dialog、BottomSheetDialog、DialogFragment、BottomSheetDialogFragment、PopupWindow、DialogActivity，总结起来就是调用简单、功能强大。</string>
+    <string name="app_name">MTPopup</string>
+    <string name="popup_des">MTPopup，Android一个简单强大的弹框处理框架，支持链式调用，提供了比较全面的api，并且覆盖Android几乎所有的弹框类型，如Dialog、BottomSheetDialog、DialogFragment、BottomSheetDialogFragment、PopupWindow、DialogActivity，总结起来就是调用简单、功能强大。</string>
 </resources>

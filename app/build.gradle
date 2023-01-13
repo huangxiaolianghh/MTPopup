@@ -6,7 +6,7 @@ android {
     compileSdkVersion 30
 
     defaultConfig {
-        applicationId "com.huangxiaoliang.xpopup"
+        applicationId "com.huangxiaoliang.mtpopup"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 2
